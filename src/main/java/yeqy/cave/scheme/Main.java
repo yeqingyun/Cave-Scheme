@@ -9,11 +9,12 @@ import java.io.InputStreamReader;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Cave Scheme Version 0.1");
-        System.out.println("made by yeqy, Let's make a Joy.\n");
+        System.out.println("made by yeqy, Let's make a joy.\n");
         System.out.print(">> ");
         try (BufferedReader codeReader = new BufferedReader(new InputStreamReader(System.in))){
             while (true) {
-                System.out.println(codeReader.readLine());
+                String code = codeReader.readLine();
+                //词法分析
             }
         } catch (Exception e){
             e.printStackTrace();
