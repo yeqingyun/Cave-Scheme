@@ -16,10 +16,10 @@ public class Main {
         System.out.println("Cave Scheme Version 0.1");
         System.out.println("made by yeqy, Let's make a joy.\n");
         try (BufferedReader codeReader = new BufferedReader(new InputStreamReader(System.in))) {
+            Environment rootEnv = new Environment();
             while (true) {
                 System.out.print(">> ");
                 String code = codeReader.readLine();
-                Environment rootEnv = new Environment();
                 //词法分析
                 String[] token = TokenPaser.parseToken(code);
                 //语法分析 构建AST
@@ -27,7 +27,8 @@ public class Main {
                 // 语义分析 eval apply
                 BaseType baseType = sExpression.eval(rootEnv);
 
-                System.out.println(baseType);
+                if(baseType != null)
+                    System.out.println(baseType);
             }
         } catch (Exception e) {
             e.printStackTrace();

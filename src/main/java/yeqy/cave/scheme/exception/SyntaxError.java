@@ -15,8 +15,19 @@ public class SyntaxError extends Exception {
         this.msg = msg;
     }
 
+    public SyntaxError(String message, Throwable cause, String msg) {
+        super(message, cause);
+        this.msg = msg;
+    }
+
     public SyntaxError(Throwable cause, String msg) {
         super(cause);
         this.msg = msg;
     }
+
+    public SyntaxError(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, String msg) {
+        super(message, cause, enableSuppression, writableStackTrace);
+        this.msg = msg;
+    }
+
 }

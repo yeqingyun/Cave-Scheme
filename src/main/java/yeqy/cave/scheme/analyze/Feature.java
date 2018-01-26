@@ -19,10 +19,15 @@ public class Feature {
         keywords.add(Constant.define);
         keywords.add(Constant.lambda);
 
-        functions.put(Constant.plus, "yeqy.cave.scheme.Function.NumberFunction.plus");
-        functions.put(Constant.reduce, "yeqy.cave.scheme.Function.NumberFunction.reduce");
-        functions.put(Constant.multiply, "yeqy.cave.scheme.Function.NumberFunction.multiply");
-        functions.put(Constant.divide, "yeqy.cave.scheme.Function.NumberFunction.divide");
+        functions.put(Constant.plus, "yeqy.cave.scheme.function.NumberFunction.plus");
+        functions.put(Constant.reduce, "yeqy.cave.scheme.function.NumberFunction.reduce");
+        functions.put(Constant.multiply, "yeqy.cave.scheme.function.NumberFunction.multiply");
+        functions.put(Constant.divide, "yeqy.cave.scheme.function.NumberFunction.divide");
+        functions.put(Constant.equal, "yeqy.cave.scheme.function.BooleanFunction.equal");
+        functions.put(Constant.equals, "yeqy.cave.scheme.function.BooleanFunction.equals");
+        functions.put(Constant.and, "yeqy.cave.scheme.function.BooleanFunction.and");
+        functions.put(Constant.or, "yeqy.cave.scheme.function.BooleanFunction.or");
+        functions.put(Constant.not, "yeqy.cave.scheme.function.BooleanFunction.not");
 
     }
 

@@ -1,4 +1,4 @@
-package yeqy.cave.scheme.Function;
+package yeqy.cave.scheme.function;
 
 import yeqy.cave.scheme.exception.TypeErrorException;
 import yeqy.cave.scheme.type.BaseType;
