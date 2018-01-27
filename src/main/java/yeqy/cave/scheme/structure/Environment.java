@@ -30,14 +30,22 @@ public class Environment {
     }
 
     public BaseType findVar(String var) {
-        if (vars.containsKey(var)) {
-            return vars.get(var);
+        BaseType data = findCurrentVar(var);
+        if (data != null) {
+            return data;
         } else {
             if (this.parent != null)
                 return parent.findVar(var);
             else
                 return null;
         }
+    }
+
+    public BaseType findCurrentVar(String var) {
+        if (vars.containsKey(var)) {
+            return vars.get(var);
+        }
+        return null;
     }
 
     public Environment getParent() {

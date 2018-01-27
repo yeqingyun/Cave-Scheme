@@ -1,5 +1,6 @@
 package yeqy.cave.scheme.type;
 
+import yeqy.cave.scheme.analyze.Constant;
 import yeqy.cave.scheme.exception.MethodIsNotDefinedException;
 import yeqy.cave.scheme.exception.ParameterException;
 import yeqy.cave.scheme.exception.SyntaxException;
@@ -45,8 +46,54 @@ public class CaveFunction extends BaseType {
             env.setVar(str, args[i++]);
         }
 
-        //尾递归优化 TODO
-        return body.eval(env);
+        if (!Constant._if.getToken().equals(body.getChildren().get(0).getValue())) {
+            return body.eval(env);
+        } else {
+            //尾递归优化 TODO
+            if (((Boolean) body.getChildren().get(1).eval(env)).isValue()) {
+                if ("".equals(body.getChildren().get(2).getValue())) {
+                    SExpression loopExp = body.getChildren().get(2).getChildren().get(0);
+                    if (env.findVar(loopExp.getValue()) == this) {//转化为循环
+                        for (; ((Boolean) body.getChildren().get(1).eval(env)).isValue(); ) {
+                            loopExcute(body.getChildren().get(2));
+                        }
+                        return body.getChildren().get(3).eval(env);
+                    }
+                }
+                return body.eval(env);
+            } else {
+                if ("".equals(body.getChildren().get(3).getValue())) {
+                    SExpression loopExp = body.getChildren().get(3).getChildren().get(0);
+                    if (env.findVar(loopExp.getValue()) == this) {//转化为循环
+                        for (; !((Boolean) body.getChildren().get(1).eval(env)).isValue(); ) {
+                            loopExcute(body.getChildren().get(3));
+                        }
+                        return body.getChildren().get(2).eval(env);
+                    }
+                }
+                return body.eval(env);
+            }
+        }
+
+    }
+
+    private void loopExcute(SExpression loopExp) throws InvocationTargetException, ParameterException, MethodIsNotDefinedException, SyntaxException, IllegalAccessException {
+
+        for (int i = 1; i < loopExp.getChildren().size(); i++) {
+            SExpression child = loopExp.getChildren().get(i);
+            String varName = findVarName(child);
+            if (varName != null)
+                env.setVar(varName, child.eval(env));
+        }
+    }
+
+    private String findVarName(SExpression exp) {
+        for (SExpression child : exp.getChildren()) {
+            if (env.findCurrentVar(child.getValue()) != null) {
+                return child.getValue();
+            }
+        }
+        return null;
     }
 
     @Override
