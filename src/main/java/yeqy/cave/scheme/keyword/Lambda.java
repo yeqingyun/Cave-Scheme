@@ -9,15 +9,15 @@ import yeqy.cave.scheme.type.CaveFunction;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yeqy on 2018/1/27.
  */
 public class Lambda {
     public static CaveFunction apply(SExpression exp, Environment env) throws InvocationTargetException, ParameterException, MethodIsNotDefinedException, IllegalAccessException, SyntaxException {
-        Set<String> params = new HashSet<>();
+        List<String> params = new ArrayList<>();
         for (SExpression var : exp.getChildren().get(1).getChildren()) {
             params.add(var.getValue());
         }

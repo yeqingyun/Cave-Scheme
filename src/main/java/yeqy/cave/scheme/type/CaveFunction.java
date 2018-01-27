@@ -8,32 +8,32 @@ import yeqy.cave.scheme.structure.SExpression;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by yeqy on 2018/1/27.
  */
 public class CaveFunction extends BaseType {
     private SExpression body;
-    private Set<String> parameter;
+    private List<String> parameter;
     private Environment env;
 
-    public CaveFunction(SExpression body, Set<String> parameter, Environment env) {
+    public CaveFunction(SExpression body, List<String> parameter, Environment env) {
         this.body = body;
         this.parameter = parameter;
         this.env = env;
+    }
+
+    public Environment getEnv() {
+        return env;
     }
 
     public SExpression getBody() {
         return body;
     }
 
-    public Set<String> getParameter() {
+    public List<String> getParameter() {
         return parameter;
-    }
-
-    public Environment getEnv() {
-        return env;
     }
 
     public BaseType apply(BaseType... args) throws InvocationTargetException, ParameterException, MethodIsNotDefinedException, SyntaxException, IllegalAccessException {

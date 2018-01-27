@@ -8,8 +8,8 @@ import yeqy.cave.scheme.structure.SExpression;
 import yeqy.cave.scheme.type.CaveFunction;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Define {
 
@@ -26,7 +26,7 @@ public class Define {
 
                 String functionName = argument.getChildren().get(0).getValue();
 
-                Set<String> params = new HashSet<>();
+                List<String> params = new ArrayList<>();
                 for (int i = 1; i < argument.getChildren().size(); i++) {
                     params.add(argument.getChildren().get(i).getValue());
                 }
