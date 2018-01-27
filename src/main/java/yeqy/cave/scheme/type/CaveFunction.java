@@ -44,13 +44,15 @@ public class CaveFunction extends BaseType {
         for (String str : parameter) {
             env.setVar(str, args[i++]);
         }
+
+        //尾递归优化 TODO
         return body.eval(env);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("(");
-        for(String par:parameter){
+        for (String par : parameter) {
             sb.append(par).append(",");
         }
         sb.deleteCharAt(sb.length() - 1).append(") ").append(body.toString());

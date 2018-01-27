@@ -4,21 +4,21 @@
 
 关键字
 
-define
-if
-lambda
+`define`  
+`if`  
+`lambda`  
 
-`(define inc (lambda (x) (+ 1 x)))`
-`(define dec (lambda (x) (- x 1)))`
-`(define (inditity x) (- (inc x) 1))`
-`(define (add x y) (if (= 0 y) x (add (inc x) (dec y))))`
-`(inc 3)`
-`(inditity 4)`
-
+`(define inc (lambda (x) (+ 1 x)))`  
+`(define dec (lambda (x) (- x 1)))`  
+`(define (inditity x) (- (inc x) 1))`  
+`(define (add x y) (if (= 0 y) x (add (inc x) (dec y))))`  
+`(inc 3)`  
+`(inditity 4)`  
+`add 1 3`
 
 支持省略最外层括号
 
-`inc 3`
+`inc 3`  
 `imditity 4`
    
 运行方式 
