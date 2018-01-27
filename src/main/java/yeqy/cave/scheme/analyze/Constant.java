@@ -16,8 +16,10 @@ public enum Constant {
     _true("true"),
     _false("false"),
     equal("="),
-    equals("euqals?"),
+    equals("equals?"),
     or("or"),
+    more_than(">"),
+    less_than("<"),
     not("not"),
     and("and"),
     nil("nil");
@@ -29,33 +31,11 @@ public enum Constant {
     }
 
     public static Constant chooseKey(String token) {
-        for(Constant constant: Constant.values()){
-            if(constant.getToken().equals(token))
-                return  constant;
+        for (Constant constant : Constant.values()) {
+            if (constant.getToken().equals(token))
+                return constant;
         }
         return null;
-//        switch (token) {
-//            case "(":
-//                return left_braces;
-//            case ")":
-//                return right_braces;
-//            case "+":
-//                return plus;
-//            case "/":
-//                return divide;
-//            case "*":
-//                return multiply;
-//            case "-":
-//                return reduce;
-//            case "lambda":
-//                return lambda;
-//            case "define":
-//                return define;
-//            case "if":
-//                return _if;
-//            default:
-//                return null;
-//        }
     }
 
     public String getToken() {

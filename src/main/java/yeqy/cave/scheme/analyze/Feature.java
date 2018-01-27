@@ -28,6 +28,8 @@ public class Feature {
         functions.put(Constant.and, "yeqy.cave.scheme.function.BooleanFunction.and");
         functions.put(Constant.or, "yeqy.cave.scheme.function.BooleanFunction.or");
         functions.put(Constant.not, "yeqy.cave.scheme.function.BooleanFunction.not");
+        functions.put(Constant.more_than, "yeqy.cave.scheme.function.BooleanFunction.moreThan");
+        functions.put(Constant.less_than, "yeqy.cave.scheme.function.BooleanFunction.lessThan");
 
     }
 

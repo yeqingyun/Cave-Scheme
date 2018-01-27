@@ -6,6 +6,7 @@ import yeqy.cave.scheme.structure.SExpression;
 import yeqy.cave.scheme.type.BaseType;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
@@ -18,21 +19,33 @@ public class Main {
         try (BufferedReader codeReader = new BufferedReader(new InputStreamReader(System.in))) {
             Environment rootEnv = new Environment();
             while (true) {
-                System.out.print(">> ");
-                String code = codeReader.readLine();
-                //词法分析
-                String[] token = TokenPaser.parseToken(code);
-                //语法分析 构建AST
-                SExpression sExpression = new SExpression(token);
-                // 语义分析 eval apply
-                BaseType baseType = sExpression.eval(rootEnv);
+                try {
+                    System.out.print(">> ");
+                    String code = codeReader.readLine();
+                    //词法分析
+                    String[] token = TokenPaser.parseToken(code);
+                    //语法分析 构建AST
+                    SExpression sExpression = new SExpression(token);
+                    // 语义分析 eval apply
+                    BaseType baseType = null;
 
-                if(baseType != null)
-                    System.out.println(baseType);
+                    baseType = sExpression.eval(rootEnv);
+
+                    if (baseType != null)
+                        System.out.println(baseType);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("guys, you typed error code");
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                System.out.println("guys, you typed error code");
+            }
+        });
+
     }
 }

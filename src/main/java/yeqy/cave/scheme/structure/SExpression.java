@@ -3,13 +3,13 @@ package yeqy.cave.scheme.structure;
 import yeqy.cave.scheme.analyze.Constant;
 import yeqy.cave.scheme.analyze.Feature;
 import yeqy.cave.scheme.exception.MethodIsNotDefinedException;
-import yeqy.cave.scheme.exception.ParameterErrorException;
+import yeqy.cave.scheme.exception.ParameterException;
+import yeqy.cave.scheme.exception.SyntaxException;
 import yeqy.cave.scheme.paser.Apply;
 import yeqy.cave.scheme.paser.TokenPaser;
 import yeqy.cave.scheme.type.BaseType;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,13 +61,15 @@ public class SExpression {
         this.children.add(child);
     }
 
-    public BaseType eval(Environment env) throws IllegalAccessException, MethodIsNotDefinedException, InvocationTargetException, ParameterErrorException, SQLSyntaxErrorException {
+    public BaseType eval(Environment env) throws IllegalAccessException, MethodIsNotDefinedException, InvocationTargetException, ParameterException, SyntaxException {
         if (this.children.size() == 0) {
             return Apply.signleEvalApply(this, env);
         } else if (this.children.size() == 1 && this.value == "") {
             return Apply.signleEvalApply(this.children.get(0), env);
         } else {
-            if (Feature.keywords.contains(Constant.chooseKey(this.children.get(0).value))) {
+            if ("".equals(this.children.get(0).value)) {
+                return Apply.lambdaApply(this, env);
+            } else if (Feature.keywords.contains(Constant.chooseKey(this.children.get(0).value))) {
                 return Apply.keyWordsApply(this, env);
             } else {
                 return Apply.functionApply(this, env);

@@ -3,19 +3,19 @@ package yeqy.cave.scheme.paser;
 import yeqy.cave.scheme.analyze.Constant;
 import yeqy.cave.scheme.analyze.Feature;
 import yeqy.cave.scheme.exception.MethodIsNotDefinedException;
-import yeqy.cave.scheme.exception.ParameterErrorException;
+import yeqy.cave.scheme.exception.ParameterException;
+import yeqy.cave.scheme.exception.SyntaxException;
 import yeqy.cave.scheme.keyword.Define;
 import yeqy.cave.scheme.keyword.If;
+import yeqy.cave.scheme.keyword.Lambda;
 import yeqy.cave.scheme.structure.Environment;
 import yeqy.cave.scheme.structure.SExpression;
-import yeqy.cave.scheme.type.BaseType;
+import yeqy.cave.scheme.type.*;
 import yeqy.cave.scheme.type.Boolean;
-import yeqy.cave.scheme.type.CaveString;
 import yeqy.cave.scheme.type.Number;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
 /**
@@ -39,55 +39,58 @@ public class Apply {
                 return data;
             } else if ((ct = Constant.chooseKey(unknownVar)) != null) {
                 if (Feature.keywords.contains(ct))
-                    return new CaveString("Exception: invalid syntax define");
+                    return new CaveString("Exception: invalid syntax apply");
                 return new CaveString("#<procedure abs>");
             } else {
-                return new CaveString(unknownVar + " is not defined");
+                return new CaveString(unknownVar == null || "".equals(unknownVar) ? "Exception: invalid syntax" : unknownVar + " is not defined");
             }
         }
     }
 
 
-    public static BaseType keyWordsApply(SExpression sExpression, Environment env) throws MethodIsNotDefinedException, InvocationTargetException, ParameterErrorException, IllegalAccessException, SQLSyntaxErrorException {
+    public static BaseType keyWordsApply(SExpression sExpression, Environment env) throws MethodIsNotDefinedException, InvocationTargetException, ParameterException, IllegalAccessException, SyntaxException {
         String unknownKeyWord = sExpression.getChildren().get(0).getValue();
-        if(Constant._if.getToken().equals(unknownKeyWord)){
-            return If._if(sExpression, env);
-        } else if(Constant.lambda.getToken().equals(unknownKeyWord)) {
-
-        } else if(Constant.define.getToken().equals(unknownKeyWord)){
-            Define.define(sExpression, env);
+        if (Constant._if.getToken().equals(unknownKeyWord)) {
+            return If.apply(sExpression, env);
+        } else if (Constant.lambda.getToken().equals(unknownKeyWord)) {
+            return Lambda.apply(sExpression, env);//包含闭包
+        } else if (Constant.define.getToken().equals(unknownKeyWord)) {
+            Define.apply(sExpression, env);
         }
         return null;
     }
 
-    public static BaseType functionApply(SExpression sExpression, Environment env) throws MethodIsNotDefinedException, InvocationTargetException, IllegalAccessException, ParameterErrorException, SQLSyntaxErrorException {
+    public static BaseType functionApply(SExpression sExpression, Environment env) throws MethodIsNotDefinedException, InvocationTargetException, IllegalAccessException, ParameterException, SyntaxException {
         String unknownFunction = sExpression.getChildren().get(0).getValue();
 
         String function = Feature.functions.get(Constant.chooseKey(unknownFunction));
 
         if (function == null) {//自定义函数
-            BaseType data = env.findVar(unknownFunction);
-            if (data == null) {
-                return new CaveString(unknownFunction + " is not defined");
+            BaseType func = env.findVar(unknownFunction);
+            if (func == null) {
+                return new CaveString(unknownFunction == null || "".equals(unknownFunction) ? "Exception: invalid syntax" : unknownFunction + " is not defined");
             }
-            return null;
-            //TODO
+            return ((CaveFunction) func).apply(buildParam(sExpression, env));
         } else {//系统函数
             String ClassName = function.substring(0, function.lastIndexOf("."));
             String methodName = function.substring(function.lastIndexOf(".") + 1);
             try {
                 Method method = Class.forName(ClassName).getMethod(methodName, BaseType[].class);
                 BaseType[] params = buildParam(sExpression, env);
-                return (BaseType) method.invoke(null, new Object[]{params});//应用序
+                return (BaseType) method.invoke(null, new Object[]{params});//应用序apply
             } catch (NoSuchMethodException | ClassNotFoundException e) {
-                throw new MethodIsNotDefinedException(unknownFunction + " is not defined");
-            } catch (Exception e) {
-                throw e;
+                throw new MethodIsNotDefinedException(unknownFunction == null || "".equals(unknownFunction) ? "Exception: invalid syntax" : unknownFunction + " is not defined");
             }
         }
     }
 
-    public static BaseType[] buildParam(SExpression root, Environment env) throws IllegalAccessException, MethodIsNotDefinedException, InvocationTargetException, ParameterErrorException, SQLSyntaxErrorException {//目前采用应用序
+    public static BaseType lambdaApply(SExpression exp, Environment env) throws IllegalAccessException, ParameterException, MethodIsNotDefinedException, SyntaxException, InvocationTargetException {
+        CaveFunction function = Lambda.apply(exp.getChildren().get(0), env);
+        return function.apply(buildParam(1, exp, env));
+    }
+
+    public static BaseType[] buildParam(SExpression root, Environment env) throws IllegalAccessException, MethodIsNotDefinedException, InvocationTargetException, ParameterException, SyntaxException {
+        //目前采用应用序
         List<SExpression> params = root.getChildren().subList(1, root.getChildren().size());
         BaseType[] expressions = new BaseType[params.size()];
         int i = 0;
@@ -95,5 +98,18 @@ public class Apply {
             expressions[i++] = s.eval(env);
         }
         return expressions;
+
     }
+
+    public static BaseType[] buildParam(int begin, SExpression root, Environment env) throws IllegalAccessException, MethodIsNotDefinedException, InvocationTargetException, ParameterException, SyntaxException {
+        //目前采用应用序
+        List<SExpression> params = root.getChildren().subList(begin, root.getChildren().size());
+        BaseType[] expressions = new BaseType[params.size()];
+        int i = 0;
+        for (SExpression s : params) {
+            expressions[i++] = s.eval(env);
+        }
+        return expressions;
+    }
+
 }
