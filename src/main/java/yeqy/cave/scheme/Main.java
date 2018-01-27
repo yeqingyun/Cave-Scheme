@@ -27,13 +27,12 @@ public class Main {
                     //语法分析 构建AST
                     SExpression sExpression = new SExpression(token);
                     // 语义分析 eval apply
-                    BaseType baseType = null;
-
-                    baseType = sExpression.eval(rootEnv);
+                    BaseType baseType = sExpression.eval(rootEnv);
 
                     if (baseType != null)
                         System.out.println(baseType);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     System.out.println(e.getMessage());
                 }
             }
@@ -43,7 +42,7 @@ public class Main {
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
-                System.out.println("guys, you typed error code");
+                System.out.println("see you next time.");
             }
         });
 

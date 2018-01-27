@@ -46,4 +46,14 @@ public class CaveFunction extends BaseType {
         }
         return body.eval(env);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("(");
+        for(String par:parameter){
+            sb.append(par).append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1).append(") ").append(body.toString());
+        return sb.toString();
+    }
 }

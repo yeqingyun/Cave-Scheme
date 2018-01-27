@@ -5,8 +5,11 @@ import yeqy.cave.scheme.exception.ParameterException;
 import yeqy.cave.scheme.exception.SyntaxException;
 import yeqy.cave.scheme.structure.Environment;
 import yeqy.cave.scheme.structure.SExpression;
+import yeqy.cave.scheme.type.CaveFunction;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Define {
 
@@ -15,7 +18,23 @@ public class Define {
             throw new SyntaxException("Exception: invalid syntax " + exp);
         else {
             String var = exp.getChildren().get(1).getValue();
-            env.setVar(var, exp.getChildren().get(2).eval(env));
+            if ("".equals(var)) {
+                SExpression argument = exp.getChildren().get(1);
+                if (argument.getChildren().size() < 2) {
+                    throw new SyntaxException("Exception: invalid syntax " + exp);
+                }
+
+                String functionName = argument.getChildren().get(0).getValue();
+
+                Set<String> params = new HashSet<>();
+                for (int i = 1; i < argument.getChildren().size(); i++) {
+                    params.add(argument.getChildren().get(i).getValue());
+                }
+
+                env.setVar(functionName, new CaveFunction(exp.getChildren().get(2), params, new Environment(env)));
+            } else {
+                env.setVar(var, exp.getChildren().get(2).eval(env));
+            }
         }
     }
 }

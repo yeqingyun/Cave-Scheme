@@ -22,7 +22,7 @@ import java.util.List;
  * Created by yeqy on 2018/1/26.
  */
 public class Apply {
-    public static BaseType signleEvalApply(SExpression sExpression, Environment env) {
+    public static BaseType signleEvalApply(SExpression sExpression, Environment env) throws SyntaxException {
         String unknownVar = sExpression.getValue();
         if (unknownVar.matches("(-)?\\d+")) {
             return new Number(Integer.valueOf(unknownVar));
@@ -42,7 +42,7 @@ public class Apply {
                     return new CaveString("Exception: invalid syntax apply");
                 return new CaveString("#<procedure abs>");
             } else {
-                return new CaveString(unknownVar == null || "".equals(unknownVar) ? "Exception: invalid syntax" : unknownVar + " is not defined");
+                throw new SyntaxException(unknownVar == null || "".equals(unknownVar) ? "Exception: invalid syntax" : unknownVar + " is not defined");
             }
         }
     }
@@ -68,7 +68,7 @@ public class Apply {
         if (function == null) {//自定义函数
             BaseType func = env.findVar(unknownFunction);
             if (func == null) {
-                return new CaveString(unknownFunction == null || "".equals(unknownFunction) ? "Exception: invalid syntax" : unknownFunction + " is not defined");
+                throw new SyntaxException(unknownFunction == null || "".equals(unknownFunction) ? "Exception: invalid syntax" : unknownFunction + " is not defined");
             }
             return ((CaveFunction) func).apply(buildParam(sExpression, env));
         } else {//系统函数
