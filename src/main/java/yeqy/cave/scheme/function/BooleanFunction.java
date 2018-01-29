@@ -11,7 +11,7 @@ public class BooleanFunction {
 
     public static Boolean moreThan(BaseType... args) throws TypeErrorException {
         if (args[0] instanceof Number) {
-            int current = 0;
+            long current = 0;
             for (BaseType arg : args) {
                 if (!(arg instanceof Number)) {
                     throw new TypeErrorException(arg + " is not a number");
@@ -45,7 +45,7 @@ public class BooleanFunction {
 
     public static Boolean lessThan(BaseType... args) throws TypeErrorException {
         if (args[0] instanceof Number) {
-            int current = 0;
+            long current = 0;
             for (BaseType arg : args) {
                 if (!(arg instanceof Number)) {
                     throw new TypeErrorException(arg + " is not a number");
@@ -78,7 +78,7 @@ public class BooleanFunction {
 
     public static Boolean equal(BaseType... args) throws TypeErrorException {
         if (args[0] instanceof Number) {
-            int value = ((Number) (args[0])).getValue();
+            long value = ((Number) (args[0])).getValue();
             for (BaseType arg : args) {
                 if (!(arg instanceof Number)) {
                     throw new TypeErrorException(arg + " is not a number");
@@ -105,7 +105,7 @@ public class BooleanFunction {
 
     public static Boolean equals(BaseType... args) throws TypeErrorException {
         if (args[0] instanceof Number) {
-            int value = ((Number) (args[0])).getValue();
+            long value = ((Number) (args[0])).getValue();
             for (BaseType arg : args) {
                 if (!(arg instanceof Number)) {
                     throw new TypeErrorException(arg + " is not a number");

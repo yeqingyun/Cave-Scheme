@@ -4,16 +4,16 @@ package yeqy.cave.scheme.type;
  * Created by yeqy on 2018/1/26.
  */
 public class Number extends BaseType {
-    private int value;
+    private long value;
 
-    public Number(int value) {
+    public Number(long value) {
         this.value = value;
     }
 
     public Number() {
     }
 
-    public void plus(int value) {
+    public void plus(long value) {
         this.value += value;
     }
 
@@ -21,7 +21,7 @@ public class Number extends BaseType {
         this.value += value.getValue();
     }
 
-    public void reduce(int value) {
+    public void reduce(long value) {
         this.value -= value;
     }
 
@@ -29,7 +29,7 @@ public class Number extends BaseType {
         this.value -= value.getValue();
     }
 
-    public void divide(int value) {
+    public void divide(long value) {
         this.value /= value;
     }
 
@@ -37,7 +37,7 @@ public class Number extends BaseType {
         this.value /= value.getValue();
     }
 
-    public void multiply(int value) {
+    public void multiply(long value) {
         this.value *= value;
     }
 
@@ -45,7 +45,7 @@ public class Number extends BaseType {
         this.value *= value.getValue();
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 

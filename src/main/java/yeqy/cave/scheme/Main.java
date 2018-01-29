@@ -26,8 +26,8 @@ public class Main {
             new SExpression(TokenPaser.parseToken("(define (abs x) (if (> x 0) x (- 0 x))")).eval(rootEnv);
             new SExpression(TokenPaser.parseToken("(define (expt-iter x y r) (if (= 0 y) r (expt-iter x (- y 1) (* r x))))")).eval(rootEnv);
             new SExpression(TokenPaser.parseToken("(define (expt x y) (expt-iter x y 1))")).eval(rootEnv);
-            new SExpression(TokenPaser.parseToken("(define (cons a b) (* (expt 2 a) (expt 3 b)))")).eval(rootEnv);
             new SExpression(TokenPaser.parseToken("(define (remainder a b) (- a (* (/ a b) b))")).eval(rootEnv);
+            new SExpression(TokenPaser.parseToken("(define (cons a b) (* (expt 2 a) (expt 3 b)))")).eval(rootEnv);
             new SExpression(TokenPaser.parseToken("(define (car z) (if (= (remainder z 2) 0) (+ 1 (car (/ z 2))) 0))")).eval(rootEnv);
             new SExpression(TokenPaser.parseToken("(define (cdr z) (if (= (remainder z 3) 0) (+ 1 (cdr (/ z 3))) 0))")).eval(rootEnv);
 
