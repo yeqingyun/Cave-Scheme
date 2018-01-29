@@ -51,6 +51,6 @@ public class Number extends BaseType {
 
     @Override
     public java.lang.String toString() {
-        return java.lang.String.valueOf(value);
+        return java.lang.String.valueOf(value < 0 ? 0 : value);
     }
 }
