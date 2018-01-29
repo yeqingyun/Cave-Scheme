@@ -32,11 +32,4 @@ public class Feature {
         functions.put(Constant.less_than, "yeqy.cave.scheme.function.BooleanFunction.lessThan");
 
     }
-
-    public static void main(String[] args) {
-        System.out.println(Integer.parseInt("+2323"));
-        System.out.println(Integer.parseInt("-2323"));
-        System.out.println(Integer.parseInt("-232z"));
-    }
-
 }
