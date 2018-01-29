@@ -23,7 +23,7 @@ public class NumberFunction {
         if (!(args[0] instanceof Number))
             throw new TypeErrorException();
         else {
-            Number result = (Number) args[0];
+            Number result = new Number(((Number) args[0]).getValue());
             for (int i = 1; i < args.length; i++) {
                 result.reduce(((Number) (args[i])));
             }
@@ -35,7 +35,7 @@ public class NumberFunction {
         if (!(args[0] instanceof Number))
             throw new TypeErrorException();
         else {
-            Number result = (Number) args[0];
+            Number result = new Number(((Number) args[0]).getValue());
             for (int i = 1; i < args.length; i++) {
                 result.divide(((Number) (args[i])));
             }

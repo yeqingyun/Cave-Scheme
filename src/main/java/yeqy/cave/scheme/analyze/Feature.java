@@ -33,4 +33,10 @@ public class Feature {
 
     }
 
+    public static void main(String[] args) {
+        System.out.println(Integer.parseInt("+2323"));
+        System.out.println(Integer.parseInt("-2323"));
+        System.out.println(Integer.parseInt("-232z"));
+    }
+
 }
