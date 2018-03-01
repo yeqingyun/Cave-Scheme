@@ -46,7 +46,7 @@ public class CaveFunction extends BaseType {
             env.setVar(str, args[i++]);
         }
 
-        if (!Constant._if.getToken().equals(body.getChildren().get(0).getValue())) {
+        if (body.getChildren().size() == 0 || !Constant._if.getToken().equals(body.getChildren().get(0).getValue())) {
             return body.eval(env);
         } else {
             //尾递归优化 TODO

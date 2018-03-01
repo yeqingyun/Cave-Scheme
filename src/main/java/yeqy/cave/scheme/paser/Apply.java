@@ -40,7 +40,7 @@ public class Apply {
             } else if ((ct = Constant.chooseKey(unknownVar)) != null) {
                 if (Feature.keywords.contains(ct))
                     return new CaveString("Exception: invalid syntax apply");
-                return new CaveString("#<procedure abs>");
+                return new CaveString("#<procedure " + unknownVar + ">");
             } else {
                 throw new SyntaxException(unknownVar == null || "".equals(unknownVar) ? "Exception: invalid syntax" : unknownVar + " is not defined");
             }
